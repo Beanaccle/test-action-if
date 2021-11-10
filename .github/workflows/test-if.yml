@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: one-line
+        if: "!startsWith(github.head_ref, 'feature/')"
+        run: echo ${{ github.head_ref }}
+
+      - name: multi-line
+        if: |
+          !(
+            startsWith(github.head_ref, 'feature/') ||
+            startsWith(github.head_ref, 'yarn-upgrade/') ||
+            startsWith(github.head_ref, 'bundle-update-')
+          )
+        run: echo Hello, world!
