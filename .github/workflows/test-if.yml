@@ -1,4 +1,4 @@
-name: CI
+name: test if
 
 on: pull_request_review
 
@@ -8,6 +8,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: branch name if
+        if: github.head_ref == 'develop'
+        run: echo hello
+        
+      - name: test
+        run: echo ${github.event.pull_request.head.ref}
 
       - name: Print branch name
         env:
