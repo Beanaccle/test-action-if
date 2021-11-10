@@ -1,8 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
+on: pull_request_review
 
 jobs:
   build:
@@ -11,15 +9,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: one-line
-        if: "!startsWith(github.head_ref, 'feature/')"
-        run: echo ${{ github.head_ref }}
+      - name: Print branch name
+        env:
+          BRANCH_NAME: ${{github.head_ref}}
+        run: echo $BRANCH_NAME
 
-      - name: multi-line
-        if: |
-          !(
-            startsWith(github.head_ref, 'feature/') ||
-            startsWith(github.head_ref, 'yarn-upgrade/') ||
-            startsWith(github.head_ref, 'bundle-update-')
-          )
-        run: echo Hello, world!
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: extract_branch
+
+      - name: Print branch name
+        env:
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+        run: echo $BRANCH_NAME
