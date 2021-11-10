@@ -15,15 +15,13 @@ jobs:
 
       - name: Print branch name
         env:
-          BRANCH_NAME: ${{github.head_ref}}
+          BRANCH_NAME: ${{github.event.pull_request.head.ref}}
         run: echo $BRANCH_NAME
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-        id: extract_branch
-
+        
       - name: Print branch name
         env:
-          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+          BRANCH_NAME: ${{github.event.pull_request_review.head.ref}}
         run: echo $BRANCH_NAME
+        
+      - name: dump context
+        run: echo '${{ toJSON(github) }}'
