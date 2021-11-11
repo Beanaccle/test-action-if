@@ -20,7 +20,7 @@ jobs:
         
       - name: Print branch name
         env:
-          BRANCH_NAME: ${{github.event.pull_request_review.head.ref}}
+          BRANCH_NAME: ${{github.head.ref}}
         run: echo $BRANCH_NAME
         
       - name: dump context
