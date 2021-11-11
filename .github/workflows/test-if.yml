@@ -17,11 +17,15 @@ jobs:
         env:
           BRANCH_NAME: ${{github.event.pull_request.head.ref}}
         run: echo $BRANCH_NAME
+ 
+      - name: branch name if2
+        if: github.head.ref == 'develop'
+        run: echo hello
         
-      - name: Print branch name
+      - name: Print branch name2
         env:
-          BRANCH_NAME: ${{github.head.ref}}
-        run: echo $BRANCH_NAME
+          BRANCH_NAME2: ${{github.head.ref}}
+        run: echo $BRANCH_NAME2
         
       - name: dump context
         run: echo '${{ toJSON(github) }}'
